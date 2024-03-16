@@ -53,7 +53,3 @@ def head(token_count, model, files):
 @click.argument("files", type=click.File("r"), nargs=-1, required=False)
 def tail(token_count, model, files):
     run(token_count, model, files, True)
-
-
-if __name__ == "__main__":
-    cli()
