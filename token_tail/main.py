@@ -4,7 +4,8 @@ import tiktoken
 
 
 def run(token_count, model, input_stream, tail):
-    tokens = tiktoken.encoding_for_model(model).encode(input_stream.read())
+    enc = tiktoken.encoding_for_model(model)
+    tokens = enc.encode(input_stream.read())
     selected_tokens = tokens[-token_count:] if tail else tokens[:token_count]
     click.echo(enc.decode(selected_tokens))
 
@@ -15,31 +16,21 @@ def cli():
     pass
 
 
-@cli.command
-@click.option(
-    "-n",
-    "--token-count",
-    default=100,
-    help="Number of tokens to include in the output.",
-)
-@click.option(
-    "-m", "--model", default="gpt-4", help="GPT model to use for tokenization."
-)
-@click.argument("file", type=click.File("r"), required=False)
-def head(token_count, model, file):
-    run(token_count, model, file or sys.stdin, False)
+def add_command(func, name):
+    @cli.command(name=name)
+    @click.option(
+        "-n",
+        "--token-count",
+        default=100,
+        help="Number of tokens to include in the output.",
+    )
+    @click.option(
+        "-m", "--model", default="gpt-4", help="GPT model to use for tokenization."
+    )
+    @click.argument("file", type=click.File("r"), default=sys.stdin)
+    def command(token_count, model, file):
+        run(token_count, model, file, name == "tail")
 
 
-@cli.command
-@click.option(
-    "-n",
-    "--token-count",
-    default=100,
-    help="Number of tokens to include in the output.",
-)
-@click.option(
-    "-m", "--model", default="gpt-4", help="GPT model to use for tokenization."
-)
-@click.argument("file", type=click.File("r"), required=False)
-def tail(token_count, model, file):
-    run(token_count, model, file or sys.stdin, True)
+add_command(run, "head")
+add_command(run, "tail")
