@@ -7,7 +7,7 @@ setup(
     install_requires=["click>=7.0", "tiktoken>=0.2.0"],
     entry_points={
         "console_scripts": [
-            "your_script=head_tail:cli",
+            "token-tail=main:cli",
         ],
     },
 )
