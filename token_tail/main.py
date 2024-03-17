@@ -19,7 +19,11 @@ def cli():
 
 
 def add_command(func, name):
-    @cli.command(name=name)
+    help_text = (
+        f"Prints the {'last' if name == 'tail' else 'first'} N tokens from the input."
+    )
+
+    @cli.command(name=name, help=help_text)
     @click.option(
         "-n",
         "--token-count",
@@ -48,6 +52,7 @@ add_command(run, "tail")
 @click.option("--overwrite", is_flag=True, help="Overwrite existing files.")
 @click.argument("file", type=click.File("r"), default=sys.stdin)
 def split(token_count, model, file, overwrite):
+    """Splits the input text into multiple files."""
     enc = tiktoken.encoding_for_model(model)
     content = file.read()
     tokens = enc.encode(content)
