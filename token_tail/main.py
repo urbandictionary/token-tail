@@ -66,3 +66,15 @@ def split(token_count, model, file, overwrite):
 
         with open(filename, "w") as file:
             file.write(enc.decode(tokens[start : start + token_count]))
+
+
+@cli.command
+@click.option(
+    "-m", "--model", default="gpt-4", help="GPT model to use for tokenization."
+)
+@click.argument("file", type=click.File("r"), default=sys.stdin)
+def count(model, file):
+    """Prints the number of tokens in the input."""
+    enc = tiktoken.encoding_for_model(model)
+    tokens = enc.encode(file.read())
+    click.echo(len(tokens))
