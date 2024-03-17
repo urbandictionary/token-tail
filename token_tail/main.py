@@ -83,3 +83,17 @@ def count(model, file):
     enc = tiktoken.encoding_for_model(model)
     tokens = enc.encode(file.read())
     click.echo(len(tokens))
+
+
+@cli.command
+@click.option(
+    "-m", "--model", default="gpt-4", help="GPT model to use for tokenization."
+)
+@click.argument("file", type=click.File("r"), default=sys.stdin)
+def dump(model, file):
+    """Dumps the tokens and their text representations."""
+    enc = tiktoken.encoding_for_model(model)
+    tokens = enc.encode(file.read())
+    for token in tokens:
+        token_text = enc.decode([token])
+        click.echo(f"{token}\t{repr(token_text)}")
