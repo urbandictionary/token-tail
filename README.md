@@ -14,6 +14,7 @@ Options:
 
 Commands:
   count  Prints the number of tokens in the input.
+  dump   Dumps the tokens and their text representations.
   head   Prints the first N tokens from the input.
   split  Splits the input text into multiple files.
   tail   Prints the last N tokens from the input.
