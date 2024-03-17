@@ -3,8 +3,6 @@
 A CLI tool for processing STDIN or a file with the tiktoken tokenizer.
 
 ```
-Extract the head or tail of text based on GPT tokens.
-
 Options:
   --help  Show this message and exit.
 

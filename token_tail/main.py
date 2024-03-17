@@ -24,7 +24,6 @@ def model_argument(function):
 
 @click.group
 def cli():
-    """Extract the head or tail of text based on GPT tokens."""
     pass
 
 
