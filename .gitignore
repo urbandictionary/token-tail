@@ -1,3 +1,4 @@
 input
 build
 token_tail.egg-info
+*.pyc
