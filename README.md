@@ -13,3 +13,7 @@ Commands:
   split  Splits the input text into multiple files.
   tail   Prints the last N tokens from the input.
 ```
+
+## Installation
+
+`pip install git+https://github.com/urbandictionary/token-tail`
