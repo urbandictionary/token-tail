@@ -55,13 +55,13 @@ add_command(run, "tail")
 )
 @model_argument
 @click.option("--overwrite", is_flag=True, help="Overwrite existing files.")
+@click.option("--prefix", default="x")
 @file_argument
-def split(token_count, model, file, overwrite):
+def split(token_count, model, file, overwrite, prefix):
     """Splits the input text into multiple files."""
     enc = tiktoken.encoding_for_model(model)
     content = file.read()
     tokens = enc.encode(content)
-    prefix = "x"
 
     for i, start in enumerate(range(0, len(tokens), token_count), start=0):
         file_suffix = (string.ascii_lowercase + string.ascii_lowercase)[i // 26] + (
