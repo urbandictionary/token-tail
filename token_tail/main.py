@@ -53,11 +53,14 @@ add_command(run, "tail")
 @click.option(
     "-n", "--token-count", default=100, help="Maximum token length for each split part."
 )
+@click.option(
+    "--suffix", default="", help="Suffix for the generated files."
+)
 @model_argument
 @click.option("--overwrite", is_flag=True, help="Overwrite existing files.")
 @click.option("--prefix", default="x")
 @file_argument
-def split(token_count, model, file, overwrite, prefix):
+def split(token_count, model, file, overwrite, prefix, suffix):
     """Splits the input text into multiple files."""
     enc = tiktoken.encoding_for_model(model)
     content = file.read()
@@ -67,7 +70,7 @@ def split(token_count, model, file, overwrite, prefix):
         file_suffix = (string.ascii_lowercase + string.ascii_lowercase)[i // 26] + (
             string.ascii_lowercase
         )[i % 26]
-        filename = f"{prefix}{file_suffix}"
+        filename = f"{prefix}{file_suffix}{suffix}"
 
         if not overwrite and os.path.exists(filename):
             raise FileExistsError(
